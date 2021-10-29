@@ -29,12 +29,9 @@ export class UsernameComponent implements OnInit {
     .subscribe( res => {
         const user = res.user.displayName === this.loginForm.value.displayName
         if(user) {
-          alert("Login Succses");
           this.loginForm.reset();
           this.router.navigate(['password'])
-        } else {
-          alert("user not found")
-        }
+        } 
       }, err => {
         alert("something went wrong")
       });

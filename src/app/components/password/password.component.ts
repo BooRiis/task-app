@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {FormBuilder, FormGroup} from '@angular/forms'
 import {Router} from '@angular/router'
 import { Data } from 'src/assets/interface/user-info';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-password',
@@ -15,7 +16,12 @@ export class PasswordComponent implements OnInit {
 
   public passwordLogin!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+    ) { }
 
   ngOnInit(): void {
     this.passwordLogin = this.formBuilder.group({
@@ -30,12 +36,10 @@ export class PasswordComponent implements OnInit {
       const userPassword = res.user.password === this.passwordLogin.value.password;
       const confirmPassword = res.user.password === this.passwordLogin.value.confirmPassword
       if(userPassword === confirmPassword) {
-        alert('login Succses');
         this.passwordLogin.reset();
+        this.authService.setAuth(true);
         this.router.navigate(['profile'])
-      } else {
-        alert('password not found')
-      }
+      } 
     }, err => {
       alert("something went wrong")
     })

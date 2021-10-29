@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // import {IntroductionComponent} from './components/introduction/introduction.component'
  import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 // import { PasswordComponent } from './components/password/password.component';
 // import { ProfileComponent } from './components/profile/profile.component';
 // import { UsernameComponent } from './components/username/username.component';
@@ -26,7 +27,8 @@ const routes: Routes = [
   // { path: 'profile', component: ProfileComponent },
   {
     path: 'profile', 
-    loadChildren: () => import('./components/profile/profile.module').then(m => m.ProfileModule)
+    loadChildren: () => import('./components/profile/profile.module').then(m => m.ProfileModule),
+    canActivate: [AuthGuard]
   },
   { path: '**', component: NotFoundComponent },
 ];

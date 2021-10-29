@@ -10,7 +10,10 @@
 assigment at ZENTITY.</h6>
 </main>
 <footer>
-<button class="main__button" routerLink="../username">
+<div *ngIf="onboarded">
+    <button (click)='goToProfile()'>Profile</button>
+</div>
+<button (click)="goStart()" class="main__button">
 Start
 </button>
 </footer>

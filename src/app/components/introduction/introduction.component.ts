@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-introduction',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IntroductionComponent implements OnInit {
 
-  constructor() { }
+  onboarded: boolean;
+
+  constructor(private authService: AuthService, private router: Router) {
+      this.onboarded = authService.getAuth();
+   }
 
   ngOnInit(): void {
+  }
+
+  public goStart = (): void => {
+    this.router.navigate(['username'])
+  }
+  goToProfile = (): void => {
+    this.router.navigate(['profile'])
   }
 
 }
