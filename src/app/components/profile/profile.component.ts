@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Data, User, Contact, LocationElement, Address, SocialNetwork} from '../../../assets/interface/user-info'
 import dataJson from '../../../assets/data.json'
 import { ApiService } from 'src/app/services/api.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,11 +19,18 @@ export class ProfileComponent implements OnInit {
   location!: LocationElement[];
   addres!: Address;
   socialNetwork!: SocialNetwork;
+  isAuth: boolean;
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private authService: AuthService, private route: Router) {
+    this.isAuth = this.authService.getAuth();
+   }
 
   ngOnInit(): void {
     this.showConfig()
+  }
+
+  goTo = (page: string): void => {
+    this.route.navigate([page]);
   }
 
   showConfig() {

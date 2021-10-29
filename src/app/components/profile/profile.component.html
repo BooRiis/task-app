@@ -6,6 +6,10 @@
             <div class="avatar"></div>
         </div>
         <p>Edit your profile</p>
+        <div>
+            isAuth {{isAuth}}
+            <button (click)="goTo('introduction')">Go to Introduction</button>
+        </div>
         <div class="user-info">
             <small>Name</small><br>
             <span>{{user?.name}} {{user?.surname}}</span>
