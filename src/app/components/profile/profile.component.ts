@@ -31,11 +31,15 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.showConfig()
-    this.persist('test')
   }
 
   persist(key: string) {
     this.LocalStorage.set(key, this.isAuth)
+  }
+
+  logout() {
+    this.removeKey('access_token');
+    this.goTo('introduction');
   }
 
   removeKey(key: string) {
