@@ -4,6 +4,7 @@ import dataJson from '../../../assets/data.json'
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 
 @Component({
@@ -16,20 +17,32 @@ export class ProfileComponent implements OnInit {
   defaultData!: Data;
   user!: User;
   contact!: Contact;
-  location!: LocationElement[];
+  location!: LocationElement[]; 
   addres!: Address;
   socialNetwork!: SocialNetwork;
   isAuth: boolean;
 
-  constructor(private api: ApiService, private authService: AuthService, private route: Router) {
+  constructor(private api: ApiService,
+    private authService: AuthService,
+    private route: Router,
+    private LocalStorage: LocalStorageService) {
     this.isAuth = this.authService.getAuth();
    }
 
   ngOnInit(): void {
     this.showConfig()
+    this.persist('test')
   }
 
-  goTo = (page: string): void => {
+  persist(key: string) {
+    this.LocalStorage.set(key, this.isAuth)
+  }
+
+  removeKey(key: string) {
+    this.LocalStorage.remove(key);
+  }
+
+  goTo = (page: string) => {
     this.route.navigate([page]);
   }
 

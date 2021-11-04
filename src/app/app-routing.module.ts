@@ -9,7 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   // { path: 'introduction', component: IntroductionComponent },
-  { path: '', redirectTo: 'introduction', pathMatch: 'full' },
+  { path: '', redirectTo: '/introduction', pathMatch: 'full' },
   {
     path: 'introduction', 
     loadChildren: () => import('./components/introduction/introduction.module').then(m => m.IntroductionModule)
