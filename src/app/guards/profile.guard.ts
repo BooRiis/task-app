@@ -7,14 +7,14 @@ import { LocalStorageService } from "../services/local-storage.service";
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class ProfileGuard implements CanActivate {
     constructor(private localStorage: LocalStorageService,
         private router: Router) {}
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         const test = this.localStorage.get('access_token');
         
-        if (!test) {
-            this.router.navigate(['username']);
+        if (test) {
+            this.router.navigate(['profile']);
             return false;
         }
 

@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import {FormBuilder, FormGroup} from '@angular/forms'
 import {Router} from '@angular/router'
 import { Data } from 'src/assets/interface/user-info';
-import { AuthService } from 'src/app/services/auth.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { DataJsonService } from 'src/app/services/dataJson.service';
 
 @Component({
   selector: 'app-password',
@@ -12,15 +13,13 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class PasswordComponent implements OnInit {
 
-  private url = '../../../assets/data.json'
-
   public passwordLogin!: FormGroup;
-
+  userData!: Data;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private localStorage: LocalStorageService,
     ) { }
 
   ngOnInit(): void {
@@ -28,20 +27,21 @@ export class PasswordComponent implements OnInit {
       password: [''],
       confirmPassword: ['']
     })
+    this.userData = this.localStorage.getUserData();
+    
   }
 
   loginPassword() {
-    this.http.get<Data>(this.url)
-    .subscribe( res => {
-      const userPassword = res.user.password === this.passwordLogin.value.password;
-      const confirmPassword = res.user.password === this.passwordLogin.value.confirmPassword
+    if(this.userData?.user) {
+      const userPassword = this.userData.user.password === this.passwordLogin.value.password;
+      const confirmPassword = this.userData.user.password === this.passwordLogin.value.confirmPassword
       if(userPassword === confirmPassword) {
         this.passwordLogin.reset();
-        this.authService.setAuth(true);
+        this.localStorage.set('access_token', 'jedete')
+        this.localStorage.remove('isOnboarded')
         this.router.navigate(['profile'])
       } 
-    }, err => {
-      alert("something went wrong")
-    })
+    }
+    
   }
 }

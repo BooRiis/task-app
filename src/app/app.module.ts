@@ -12,6 +12,10 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
+import { LocalStorageService } from './services/local-storage.service';
+import { OnboardingGuard } from './guards/onboarding.guard';
+import { ProfileGuard } from './guards/profile.guard';
+import { DataJsonService } from './services/dataJson.service';
 // import { IntroductionModule } from './components/introduction/introduction.module';
 
 @NgModule({
@@ -29,7 +33,11 @@ import { AuthGuard } from './guards/auth.guard';
   ],
   providers: [
     AuthService,
-    AuthGuard
+    LocalStorageService,
+    AuthGuard,
+    DataJsonService,
+    ProfileGuard,
+    OnboardingGuard
   ],
   bootstrap: [AppComponent]
 })

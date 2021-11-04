@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms'
 import {Router} from '@angular/router'
+import { Subscription } from 'rxjs';
+import { DataJsonService } from 'src/app/services/dataJson.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Data } from 'src/assets/interface/user-info';
  
 @Component({
@@ -11,30 +13,31 @@ import { Data } from 'src/assets/interface/user-info';
 })
 export class UsernameComponent implements OnInit {
 
-  private url = '../../../assets/data.json'
+  userData!: Data;
   
-
   public loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) { }
 
+  constructor(private localStorage: LocalStorageService, private dataJsonService: DataJsonService,
+    private formBuilder: FormBuilder, private router: Router) { }
+  
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       displayName: ['']
     })
+    this.dataJsonService.loadJson('data.json');
   }
 
   login() {
-    this.http.get<Data>(this.url)
-    .subscribe( res => {
-        const user = res.user.displayName === this.loginForm.value.displayName
-        if(user) {
-          this.loginForm.reset();
-          this.router.navigate(['password'])
-        } 
-      }, err => {
-        alert("something went wrong")
-      });
+    this.userData = this.localStorage.getUserData();
+    
+    if (this.userData?.user){
+      const user = this.userData.user.displayName === this.loginForm.value.displayName
+      if(user) {
+        this.loginForm.reset();
+        this.localStorage.set('isOnboarded', true)
+        this.router.navigate(['password'])
+      }
+    }
   }
-
 }

@@ -7,7 +7,6 @@
         </div>
         <p>Edit your profile</p>
         <div>
-            isAuth {{isAuth}}
             <button (click)="goTo('introduction')">Go to Introduction</button>
         </div>
         <div class="user-info">
@@ -61,7 +60,7 @@
         </div>
     </form>
     <footer>
-        <button class="second__button logout-btn" (click)="removeKey('test')" routerLink="../username">
+        <button class="second__button logout-btn" (click)="logout()" routerLink="../username">
             Logout
         </button>
     </footer>

@@ -13,7 +13,8 @@ assigment at ZENTITY.</h6>
 <div *ngIf="onboarded">
     <button (click)='goToProfile()'>Profile</button>
 </div>
-<button (click)="goStart()" class="main__button">
+
+<button *ngIf="!onboarded" (click)="goStart()" class="main__button">
 Start
 </button>
 </footer>

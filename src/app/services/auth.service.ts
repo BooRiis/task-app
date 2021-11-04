@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
+import { LocalStorageService } from "./local-storage.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    onboarded = false;
+    constructor(private localeStorage: LocalStorageService) {}
 
-    setAuth = (val: boolean): void => { this.onboarded = val; }
-
-    getAuth = (): boolean => this.onboarded;
+    getAuth = (): boolean => {
+        const access_token = this.localeStorage.get('access_token');
+        return !!access_token;
+    }
 }
